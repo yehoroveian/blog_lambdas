@@ -7,12 +7,10 @@ import (
 
 	"github.com/aws/aws-lambda-go/lambda"
 	awsconfig "github.com/aws/aws-sdk-go-v2/config"
-	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 
 	"gitlab.com/blog/api/src/app/images"
 	"gitlab.com/blog/api/src/config"
-	"gitlab.com/blog/api/src/storage/dynamo/namespaces"
 )
 
 func main() {
@@ -38,9 +36,7 @@ func run() error {
 
 	awsClient := s3.NewFromConfig(awsConfig)
 
-	dynamoClient := namespaces.New(dynamodb.NewFromConfig(awsConfig))
-
-	svc := images.New(cfg.S3.BucketName, awsClient, dynamoClient)
+	svc := images.New(cfg.S3.BucketName, awsClient)
 
 	lambda.StartWithOptions(svc.GetUploadLink, lambda.WithContext(ctx))
 

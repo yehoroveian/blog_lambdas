@@ -1,14 +1,13 @@
-package images
+package blog
 
 import (
 	"context"
 
-	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 )
 
 type Provider interface {
-	GetUploadLink(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error)
+	AddBlogSection(ctx context.Context) error
 }
 
 type Service struct {
